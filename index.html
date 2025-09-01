@@ -59,57 +59,13 @@
 
   <script>
     // Animate core pulse
-    anime({
-      targets: '.core',
-      scale: [
-        { value: 1, duration: 1000 },
-        { value: 1.2, duration: 1000 }
-      ],
-      easing: 'easeInOutSine',
-      loop: true,
-      direction: 'alternate'
-    });
+  animate(createDrawable('path'), {
+  draw: ['0 0', '0 1', '1 1'],
+  delay: stagger(40),
+  ease: 'inOut(3)',
+  autoplay: onScroll({ sync: true }),
+});
 
-    // Animate rotating rings
-    document.querySelectorAll('.ring').forEach((ring, i) => {
-      anime({
-        targets: ring,
-        rotate: '360deg',
-        duration: 8000 + i * 2000,
-        easing: 'linear',
-        loop: true
-      });
-    });
-
-    // Create stars
-    const numStars = 100;
-    for (let i = 0; i < numStars; i++) {
-      const star = document.createElement('div');
-      star.classList.add('star');
-      document.body.appendChild(star);
-      
-      const angle = Math.random() * 2 * Math.PI;
-      const distance = Math.random() * 5 + 1;
-      const x = Math.cos(angle) * distance;
-      const y = Math.sin(angle) * distance;
-
-      anime({
-        targets: star,
-        translateX: [
-          { value: x * 500, duration: 4000 + Math.random() * 2000 }
-        ],
-        translateY: [
-          { value: y * 500, duration: 4000 + Math.random() * 2000 }
-        ],
-        opacity: [
-          { value: 1, duration: 100 },
-          { value: 0, duration: 4000 }
-        ],
-        easing: 'easeOutQuad',
-        loop: true,
-        delay: i * 30
-      });
-    }
   </script>
 
 </body>
