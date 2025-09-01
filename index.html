@@ -2,53 +2,73 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>F1 Track Animation</title>
+  <title>F1 Track with Motion One</title>
   <style>
     body, html {
       margin: 0;
       padding: 0;
       height: 100vh;
+      background: #111;
       overflow: hidden;
-      background: #222;
-      position: relative;
     }
+
     svg {
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
     }
+
     .car {
-      position: absolute;
-      width: 40px;
-      height: 20px;
+      width: 20px;
+      height: 10px;
       background: red;
-      border-radius: 4px;
-      transform-origin: center center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 2px;
+      transform-origin: center;
     }
   </style>
 </head>
 <body>
 
+  <!-- SVG Track -->
   <svg viewBox="0 0 600 400">
-    <path id="track-path"
-          d="M50,200 C150,50 450,50 550,200 C450,350 150,350 50,200 Z"
-          fill="none" stroke="#444" stroke-width="6"/>
+    <path class="circuit" d="M50,200 C150,50 450,50 550,200 C450,350 150,350 50,200 Z"
+          fill="none" stroke="#888" stroke-width="4"/>
   </svg>
 
+  <!-- Car -->
   <div class="car"></div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <!-- Motion One CDN -->
+  <script src="https://unpkg.com/@motionone/dom"></script>
   <script>
-    const path = anime.path('#track-path');
+    const { animate, createMotionPath, createDrawable, morphTo } = window.Motion;
 
-    anime({
-      targets: '.car',
-      translateX: path('x'),
-      translateY: path('y'),
-      rotate: path('angle'),
-      easing: 'linear',
-      duration: 8000,
-      loop: true
+    // Animate car around the circuit path
+    animate('.car', {
+      ...createMotionPath('.circuit'),
+    }, {
+      duration: 6,
+      repeat: Infinity,
+      easing: 'linear'
     });
+
+    // Animate the path being drawn
+    animate(createDrawable('.circuit'), {
+      draw: '0 1',
+    }, {
+      duration: 2,
+      easing: 'ease-in-out'
+    });
+
+    // Example morphing path (requires .circuit-a and .circuit-b in DOM)
+    // animate('.circuit-a', {
+    //   d: morphTo('.circuit-b'),
+    // }, {
+    //   duration: 2,
+    //   easing: 'ease-in-out'
+    // });
   </script>
 </body>
 </html>
