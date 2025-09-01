@@ -1,69 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>F1 Track Animation (Motion One)</title>
+  <meta charset="UTF-8" />
+  <title>Wavy Text Animation with Anime.js</title>
   <style>
-    html, body {
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #121212;
       margin: 0;
-      padding: 0;
-      background: #111;
-      overflow: hidden;
-      height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #4df9ff;
+      font-size: 5vw;
+      user-select: none;
     }
-
-    svg {
-      width: 100vw;
-      height: 100vh;
+    .wave-text {
+      display: flex;
     }
-
-    .car {
-      width: 30px;
-      height: 14px;
-      background: red;
-      position: absolute;
-      top: 0;
-      left: 0;
-      border-radius: 2px;
-      transform-origin: center;
-      z-index: 10;
+    .wave-text span {
+      display: inline-block;
+      transform-origin: center bottom;
     }
   </style>
 </head>
 <body>
 
-  <!-- The SVG path for the track -->
-  <svg viewBox="0 0 600 400">
-    <path class="circuit" d="M50,200 C150,50 450,50 550,200 C450,350 150,350 50,200 Z"
-          fill="none" stroke="#666" stroke-width="6"/>
-  </svg>
+  <div class="wave-text" aria-label="Anime.js Wavy Text">Anime.js Wavy Text</div>
 
-  <!-- Car div that will follow the path -->
-  <div class="car"></div>
-
-  <!-- Motion One Library -->
-  <script src="https://unpkg.com/@motionone/dom"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
   <script>
-    const { animate, createMotionPath, createDrawable, morphTo } = window.Motion;
+    const text = document.querySelector('.wave-text');
+    const textContent = text.textContent;
+    text.textContent = '';
 
-    // Wait until everything is loaded
-    window.addEventListener('DOMContentLoaded', () => {
-      // Animate the car following the path
-      animate('.car', createMotionPath('.circuit'), {
-        duration: 8,
-        repeat: Infinity,
-        easing: 'linear'
-      });
+    // Wrap each letter in a span
+    for (let char of textContent) {
+      const span = document.createElement('span');
+      span.textContent = char === ' ' ? '\u00A0' : char;
+      text.appendChild(span);
+    }
 
-      // Animate the drawing of the track
-      animate(createDrawable('.circuit'), {
-        draw: '0 1'
-      }, {
-        duration: 2,
-        easing: 'ease-in-out'
+    anime.timeline({ loop: true })
+      .add({
+        targets: '.wave-text span',
+        translateY: [
+          { value: -30, duration: 400 },
+          { value: 0, duration: 400 }
+        ],
+        rotate: [
+          { value: 15, duration: 400 },
+          { value: 0, duration: 400 }
+        ],
+        delay: anime.stagger(100),
+        easing: 'easeInOutSine',
       });
-    });
   </script>
+
 </body>
 </html>
