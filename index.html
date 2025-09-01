@@ -2,48 +2,51 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Anime.js Demo</title>
+  <title>Anime.js Engine Animation</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background: #111;
+      background: #222;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      height: 100vh;
+      margin: 0;
+      color: #fff;
+      font-family: sans-serif;
     }
-
-    .box {
-      width: 100px;
-      height: 100px;
-      background-color: crimson;
-      border-radius: 10px;
+    svg {
+      width: 300px;
+      height: 300px;
     }
   </style>
 </head>
 <body>
+  <h1>Animation Engine</h1>
+  <svg id="engine" viewBox="0 0 300 300">
+    <circle id="ring" cx="150" cy="150" r="100" fill="none" stroke="#888" stroke-width="8"/>
+    <rect id="piston" x="140" y="50" width="20" height="100" fill="#aaa"/>
+  </svg>
 
-  <div class="box"></div>
-
-  <!-- Anime.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-
   <script>
     anime({
-      targets: '.box',
-      translateX: 300,
-      rotate: '1turn',
-      scale: [
-        { value: 1.5, duration: 1000 },
-        { value: 1, duration: 1000 }
+      targets: '#ring',
+      rotate: '360deg',
+      duration: 4000,
+      easing: 'linear',
+      loop: true
+    });
+
+    anime({
+      targets: '#piston',
+      translateY: [
+        { value: 30, duration: 600 },
+        { value: 0, duration: 600 }
       ],
-      duration: 3000,
       easing: 'easeInOutSine',
-      direction: 'alternate',
       loop: true
     });
   </script>
-
 </body>
 </html>
